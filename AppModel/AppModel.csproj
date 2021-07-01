@@ -9,9 +9,4 @@
     <ProjectReference Include="..\contracts\Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Business\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

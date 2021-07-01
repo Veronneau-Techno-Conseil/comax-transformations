@@ -1,0 +1,7 @@
+{
+  "DbConfig": {
+    "MemoryDb": true,
+    "ConnectionString": "Host=dbsrv1.vertechcon.lan;Database=accounts;Username=accountsdbsa;Password=lsey67vIr42h",
+    "ShouldDrop": false
+  }
+}

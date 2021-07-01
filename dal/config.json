@@ -1,0 +1,8 @@
+{
+  "DbConfig": {
+    "MemoryDb": false,
+    "ConnectionString": "Host=dbsrv1.vertechcon.lan;Database=transformations;Username=accountsdbsa;Password=lsey67vIr42h",
+    "DbType": "pg",
+    "ShouldDrop": false
+  }
+}
