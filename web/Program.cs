@@ -18,9 +18,18 @@ namespace web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(cfg=>
+                    cfg.AddEnvironmentVariables())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel();
+                    webBuilder.UseKestrel(opts=>
+                    {
+                        opts.ConfigureHttpsDefaults(def =>
+                        {
+                            def.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(System.IO.Path.GetFullPath("./certs/localhost.pfx"), "tester123");
+                        });
+                    });
+                    
                     webBuilder.UseStartup<Startup>();
                     //TODO: load urls from config webBuilder.UseUrls()
                 });

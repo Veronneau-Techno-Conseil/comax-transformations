@@ -21,7 +21,7 @@ namespace CommunAxiom.Transformations.Business.Module
             this.operationAccessor = operationAccessor;
             
             RuleFor(x => x.Id).MustAsync((id, token) => Exists(id)).WithErrorCode(ERROR_CODES.NOT_FOUND);
-            RuleFor(x => x.Code).NotNull().WithErrorCode(ERROR_CODES.MANDATORY).DependentRules(() =>
+            RuleFor(x => x.Code).NotEmpty().WithErrorCode(ERROR_CODES.MANDATORY).DependentRules(() =>
             {
                 RuleFor(x => x.Code).MinimumLength(4).WithErrorCode(ERROR_CODES.MIN_LEN);
                 RuleFor(x => x.Code).Matches("^[a-zA-Z0-9-_]{4,}$").WithErrorCode(ERROR_CODES.REGEX).WithMessage(Resources.Messages.AllowedCodes);
@@ -42,13 +42,13 @@ namespace CommunAxiom.Transformations.Business.Module
         {
             var co = operationAccessor.GetCurrentOperationType();
 
-            var exists = await this.moduleRepository.ModuleIdExists(moduleId);
             switch (co)
             {
                 case OperationType.CREATE:
                     return true;
                 case OperationType.UPDATE:
                 case OperationType.DELETE:
+                    var exists = await this.moduleRepository.ModuleIdExists(moduleId);
                     return exists;
             }
 

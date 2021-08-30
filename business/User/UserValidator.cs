@@ -18,14 +18,14 @@ namespace CommunAxiom.Transformations.Business.User
 
             RuleFor(x => x.Name).NotEmpty().WithErrorCode(ERROR_CODES.MANDATORY).DependentRules(() =>
             {
-                RuleFor(x => x.Name).MinimumLength(3).WithErrorCode(ERROR_CODES.MIN_LEN);
+                RuleFor(x => x.Name).MinimumLength(3).WithErrorCode(ERROR_CODES.MIN_LEN).WithState(u=>3);
             });
 
             RuleFor(x => x.Username).NotEmpty().WithErrorCode(ERROR_CODES.MANDATORY).DependentRules(() =>
             {
-                RuleFor(x => x.Username).MinimumLength(3).WithErrorCode(ERROR_CODES.MIN_LEN);
-                RuleFor(x => x.Username).Matches(@"^[0-9a-zA-Z@\.\-_]{3,}$").WithErrorCode(ERROR_CODES.REGEX);
-                RuleFor(x => x.Username).MustAsync((username, token) => NotExists(username)).WithErrorCode(ERROR_CODES.UK_EXISTS);
+                RuleFor(x => x.Username).MinimumLength(3).WithErrorCode(ERROR_CODES.MIN_LEN).WithState(u => 3);
+                RuleFor(x => x.Username).Matches(@"^[0-9a-zA-Z@\.\-_]{3,}$").WithErrorCode(ERROR_CODES.REGEX).WithState(u => "0-9 a-z A-Z @ . - _");
+                RuleFor(x => x.Username).MustAsync((username, token) => NotExists(username)).WithErrorCode(ERROR_CODES.UK_EXISTS).WithState(u=> "username");
             });
             
         }

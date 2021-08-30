@@ -10,15 +10,20 @@ namespace CommunAxiom.Transformations.DAL
     {
         public static Task<TResult> WithContext<TResult>(this IServiceProvider serviceProvider, Func<Models.TransformationsDbContext, Task<TResult>> action)
         {
-            using(var ctxt = serviceProvider.GetService<Models.TransformationsDbContext>())
+            return Task.Run(async () =>
             {
-                return action(ctxt);
-            }
+                using var scope = serviceProvider.CreateScope();
+                using (var ctxt = scope.ServiceProvider.GetService<Models.TransformationsDbContext>())
+                {
+                    return await action(ctxt);
+                }
+            });
         }
 
         public static TResult WithContext<TResult>(this IServiceProvider serviceProvider, Func<Models.TransformationsDbContext, TResult> action)
         {
-            using (var ctxt = serviceProvider.GetService<Models.TransformationsDbContext>())
+            using var scope = serviceProvider.CreateScope();
+            using (var ctxt = scope.ServiceProvider.GetService<Models.TransformationsDbContext>())
             {
                 return action(ctxt);
             }
@@ -26,15 +31,20 @@ namespace CommunAxiom.Transformations.DAL
 
         public static Task WithContext(this IServiceProvider serviceProvider, Func<Models.TransformationsDbContext, Task> action)
         {
-            using (var ctxt = serviceProvider.GetService<Models.TransformationsDbContext>())
+            return Task.Run(async () =>
             {
-                return action(ctxt);
-            }
+                using var scope = serviceProvider.CreateScope();
+                using (var ctxt = scope.ServiceProvider.GetService<Models.TransformationsDbContext>())
+                {
+                    await action(ctxt);
+                }
+            });
         }
 
         public static void WithContext(this IServiceProvider serviceProvider, Action<Models.TransformationsDbContext> action)
         {
-            using (var ctxt = serviceProvider.GetService<Models.TransformationsDbContext>())
+            using var scope = serviceProvider.CreateScope();
+            using (var ctxt = scope.ServiceProvider.GetService<Models.TransformationsDbContext>())
             {
                 action(ctxt);
             }
@@ -42,7 +52,8 @@ namespace CommunAxiom.Transformations.DAL
 
         public static async IAsyncEnumerable<TResult> WithContext<TResult>(this IServiceProvider serviceProvider, Func<Models.TransformationsDbContext, IAsyncEnumerable<TResult>> action)
         {
-            using (var ctxt = serviceProvider.GetService<Models.TransformationsDbContext>())
+            using var scope = serviceProvider.CreateScope();
+            using (var ctxt = scope.ServiceProvider.GetService<Models.TransformationsDbContext>())
             {
                 await foreach (var item in action(ctxt))
                     yield return item;

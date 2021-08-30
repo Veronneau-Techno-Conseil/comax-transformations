@@ -15,5 +15,7 @@ namespace CommunAxiom.Transformations.AppModel.Business
         Task<Result<Module>> AddModule(Module id);
         Task<Result<Module>> UpdateModule(Module id);
         Task<ValidationResult> DeleteModule(int id); 
+        IAsyncEnumerable<ModuleType> GetModuleTypes();
+
     }
 }

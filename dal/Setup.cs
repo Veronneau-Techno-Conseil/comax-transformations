@@ -20,9 +20,11 @@ namespace CommunAxiom.Transformations.DAL
             Setup.ConfigName = configName;
 
             serviceCollection.Configure<Config>(x => configuration.GetSection(configName).Bind(x));
+
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IModuleRepository, ModuleRepository>();
-            serviceCollection.AddDbContext<Models.TransformationsDbContext>(ServiceLifetime.Transient);
+            
+            serviceCollection.AddDbContext<Models.TransformationsDbContext>(ServiceLifetime.Transient, ServiceLifetime.Transient);
             serviceCollection.AddAutoMapper(typeof(Setup).Assembly);
 
             UpgradeDb(serviceCollection.BuildServiceProvider());

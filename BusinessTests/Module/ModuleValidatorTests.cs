@@ -16,7 +16,7 @@ namespace BusinessTests.ModuleTests
         [DataRow(OperationType.UPDATE, 0, "module", "best@pirates.carib", ModuleType.PYTHON, false, ERROR_CODES.NOT_FOUND, DisplayName = "Update fails (Not found)")]
         [DataRow(OperationType.UPDATE, 1, null, "best@pirates.carib", ModuleType.PYTHON, false, ERROR_CODES.MANDATORY, DisplayName = "Update fails (Code mandatory)")]
         [DataRow(OperationType.UPDATE, 1, "mo", "best@pirates.carib", ModuleType.PYTHON, false, ERROR_CODES.MIN_LEN, DisplayName = "Update fails (Code min length)")]
-        [DataRow(OperationType.UPDATE, 1, "mo@#test=%", "best@pirates.carib", ModuleType.PYTHON, false, ERROR_CODES.REGEX, DisplayName = "Update fails (Code min length)")]
+        [DataRow(OperationType.UPDATE, 1, "mo@#test=%", "best@pirates.carib", ModuleType.PYTHON, false, ERROR_CODES.REGEX, DisplayName = "Update fails (Code format)")]
         [DataRow(OperationType.UPDATE, 1, "module", null, ModuleType.PYTHON, false, ERROR_CODES.MANDATORY, DisplayName = "Update fails (Creator mandatory)")]
         [DataRow(OperationType.UPDATE, 1, "module", "bst@pirates.carib", ModuleType.PYTHON, false, ERROR_CODES.FK, DisplayName = "Update fails (Creator FK)")]
         [DataRow(OperationType.UPDATE, 1, "module", "best@pirates.carib", null, false, ERROR_CODES.MANDATORY, DisplayName = "Update fails (ModuleType Mandatory)")]

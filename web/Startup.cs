@@ -25,9 +25,18 @@ namespace web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IOperationAccessor, OperationAccessor>();
+            services.AddSingleton<SiteCache>();
 
-            services.AddRazorPages();
+            services.AddScoped<IOperationAccessor, OperationAccessor>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
+
+            CommunAxiom.Transformations.Business.Setup.Configure(services);
+            CommunAxiom.Transformations.DAL.Setup.Configure("DbConfig", services, Configuration);
+
+            services.AddLocalization();
+
+            services.AddControllersWithViews()
+                .AddMvcLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +62,13 @@ namespace web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            SeedTestData.Execute(app.ApplicationServices).GetAwaiter().GetResult();
         }
     }
 }

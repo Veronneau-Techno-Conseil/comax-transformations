@@ -19,7 +19,8 @@ namespace CommunAxiom.Transformations.DAL.Repositories
             EF.CompileAsyncQuery<Models.TransformationsDbContext, string, Models.Module>(
                 (ctxt, search) =>
                     from module in ctxt.Set<Models.Module>().Include(x=>x.ModuleType).Include(x=>x.Creator)
-                    where module.Code.Contains(search, StringComparison.InvariantCultureIgnoreCase)
+                    where string.IsNullOrWhiteSpace(search) 
+                        || (!string.IsNullOrWhiteSpace(search) && module.Code.Contains(search))
                     select module
                 );
 
@@ -29,7 +30,7 @@ namespace CommunAxiom.Transformations.DAL.Repositories
             this.mapper = mapper;
         }
 
-        public Task<Module> AddModule(Module m)
+        public Task<Module> AddModule(Contracts.Module m)
         {
             return this.serviceProvider.WithContext(async x =>
             {
@@ -68,8 +69,7 @@ namespace CommunAxiom.Transformations.DAL.Repositories
             return this.serviceProvider.WithContext(async x =>
             {
                 var set = x.Set<Models.Module>();
-                return this.mapper.Map<Contracts.Module>(
-                    await set.Include(x => x.ModuleType).Include(x => x.Creator).FirstOrDefaultAsync(x => x.Code == code));
+                return this.mapper.Map<Contracts.Module>(await set.Include(x => x.ModuleType).Include(x => x.Creator).FirstOrDefaultAsync(x => x.Code == code));
             });
         }
 
@@ -86,7 +86,6 @@ namespace CommunAxiom.Transformations.DAL.Repositories
         public Task<bool> ModuleExists(string code) =>
             this.serviceProvider.WithContext(x => x.Set<Models.Module>().AnyAsync(y => y.Code == code));
 
-
         public Task<bool> ModuleIdExists(int id) =>
             this.serviceProvider.WithContext(x => x.Set<Models.Module>().AnyAsync(y => y.Id == id));
 
@@ -94,7 +93,7 @@ namespace CommunAxiom.Transformations.DAL.Repositories
             this.serviceProvider.WithContext(x => x.Set<Models.ModuleType>().AnyAsync(y => y.Code == code));
 
 
-        public Task<Module> UpdateModule(Module module)
+        public Task<Module> UpdateModule(Contracts.Module module)
         {
             return this.serviceProvider.WithContext(async ctxt =>
             {

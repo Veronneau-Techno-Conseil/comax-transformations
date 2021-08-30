@@ -12,8 +12,8 @@ namespace web.Helpers
 {
     public static class ResultHandler
     {
-        public static async Task<TResult> HandleResult<TResult>(this Controller controller, OperationType operationType, 
-            Func<Task<TResult>> execute, Func<Exception, TResult> manageError)
+        public static async Task<ActionResult> HandleResult(this Controller controller, OperationType operationType, 
+            Func<Task<ActionResult>> execute, Func<Exception, ActionResult> manageError) 
         {
             var oa = controller.HttpContext.RequestServices.GetService<IOperationAccessor>();
             oa.SetCurrentOperation(operationType);

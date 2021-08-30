@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model CommunAxiom.Transformations.Contracts.Module
+@inject IHtmlLocalizer<web.Controllers.ModuleController> Localizer
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var cache = this.Context.RequestServices.GetService<SiteCache>();
+}
+
+@using (Html.BeginForm())
+{
+    <div class="d-flex">
+        <span class="p-2">@Localizer["module_name"]</span>
+        @Html.HiddenFor(x => x.Id)
+    </div>
+    <div class="d-flex">
+        <div class="p-2 d-flex flex-column">
+            @Html.TextBoxFor(x => x.Code, new { @class = "p-2" })
+            <span asp-validation-for="Code" class="text-danger p-2"></span>
+        </div>
+        <div class="p-2 d-flex flex-column">
+            @Html.DropDownListFor(x => x.ModuleTypeCode, cache.GetModuleTypes().Select(x => new SelectListItem(x.Code, x.Code)), new { @class = "p-2" })
+            <span asp-validation-for="ModuleTypeCode" class="text-danger p-2"></span>
+        </div>
+    </div>
+    <div class="d-flex">
+        <input type="submit" value="@Localizer["save"]" />
+    </div>
+
+}
+
