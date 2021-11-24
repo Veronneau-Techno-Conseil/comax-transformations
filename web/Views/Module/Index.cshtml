@@ -7,6 +7,7 @@
 @inject IHtmlLocalizer<web.Controllers.ModuleController> Localizer
 
 <h1>Index</h1>
+<button type="button" onclick="location.href = 'https://localhost:5001/Home/logout'">Logout!</button>
 <div class="d-flex flex-row-reverse">
     <div class="p-2"><a asp-action="Create" asp-controller="Module"><span class="fas fa-plus"></span>@Localizer["new"]</a></div>
 </div>
