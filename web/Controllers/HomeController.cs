@@ -17,6 +17,7 @@ using web.Models;
 
 namespace web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -44,37 +45,9 @@ namespace web.Controllers
             return View();
         }
 
-        public IActionResult Login()
+        public IActionResult Logout()
         {
-            return View();
-        }
-
-        public IActionResult OIDC()
-        {
-            return Challenge(new AuthenticationProperties
-            {
-                RedirectUri = "/Home/Welcome"
-            }, OpenIdConnectDefaults.AuthenticationScheme);
-        }
-
-        public IActionResult Updatedatabasecall()
-        {
-            string username = HttpContext.User.Identity.Name;
-            return RedirectToAction("Welcome");
-        }
-
-        public IActionResult Forbidden()
-        {
-            return View();
-        }
-
-        public async Task Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties()
-            {
-                RedirectUri = "/Home/Login"
-            });
+            return RedirectToAction("Logout", "Login");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

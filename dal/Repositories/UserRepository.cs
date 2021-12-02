@@ -49,5 +49,25 @@ namespace CommunAxiom.Transformations.DAL.Repositories
                 await x.SaveChangesAsync();
             });
         }
+
+        public Task UpdateDatabase(string username)
+        {
+            return this.serviceProvider.WithContext(async x =>
+            {
+                if (Exists(username).Result)
+                {
+                    await Stamp(Get(username).Result);
+                }
+                else
+                {
+                    await Create(new User
+                    {
+                        Username = username,
+                        Name = username,
+                        LastConnected = DateTime.UtcNow
+                    });
+                }
+            });
+        }
     }
 }

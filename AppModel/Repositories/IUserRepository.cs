@@ -13,5 +13,6 @@ namespace CommunAxiom.Transformations.AppModel.Repositories
         Task<User> Create(User user);
         Task Stamp(User user);
         Task<User> Get(string username);
+        Task UpdateDatabase(string username);
     }
 }

@@ -40,7 +40,7 @@ namespace web
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "https://localhost:5001/Home/login";
+                options.LoginPath = "https://localhost:5001/Login";
             });
 
             services.AddLocalization();
@@ -51,7 +51,7 @@ namespace web
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             }).AddCookie(options =>
             {
-                options.LoginPath = PathString.FromUriComponent(new Uri("https://localhost:5001/Home/login"));
+                options.LoginPath = PathString.FromUriComponent(new Uri("https://localhost:5001/Login"));
                 options.Cookie.SameSite = SameSiteMode.None;
             })
             .AddOpenIdConnect(options =>
@@ -59,11 +59,11 @@ namespace web
                 options.ClientId = "823821899740-bc6fkjg302kk8jundfd6ff29u97mfuoi.apps.googleusercontent.com";
                 options.ClientSecret = "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";
                 options.Authority = "https://accounts.google.com/";
-
+                
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
-                options.AccessDeniedPath = PathString.FromUriComponent(new Uri("https://localhost:5001/Home/forbidden"));
+                options.AccessDeniedPath = PathString.FromUriComponent(new Uri("https://localhost:5001/Login/forbidden"));
                 options.MapInboundClaims = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
 
@@ -71,18 +71,21 @@ namespace web
                 {
                     OnAuthenticationFailed = context =>
                     {
-                        context.Response.Redirect($"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}/Home/forbidden");
+                        context.Response.Redirect($"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}/Login/forbidden");
                         context.HandleResponse();
                         return Task.CompletedTask;
                     },
                     OnRedirectToIdentityProviderForSignOut = context =>
                     {
-                        context.ProtocolMessage.IssuerAddress = "https://localhost:5001/Home/login";
+                        var logoutUri = Configuration["oidc:SignedOutRedirectUri"];
+                        context.Response.Redirect(logoutUri);
+                        context.HandleResponse();
+
                         return Task.CompletedTask;
                     },
                     OnTicketReceived = context =>
                     {
-                        context.ReturnUri = "https://localhost:5001/Home/updatedatabasecall";
+                        context.ReturnUri = "https://localhost:5001/Login/updatedatabasecall";
                         return Task.CompletedTask;
                     }
                 };
@@ -96,6 +99,11 @@ namespace web
                     .Build();
             });
 
+            services.AddSingleton<IAuthorizationHandler,
+                     AdministratorAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler,
+                     UserAuthorizationHandler>();
+
             services.AddControllersWithViews()
               .AddMvcLocalization();
                 services.AddRazorPages(options =>
@@ -105,16 +113,9 @@ namespace web
                     options.Conventions.AuthorizePage("/Home/Index");
                     options.Conventions.AuthorizePage("/Home/Welcome");
                     options.Conventions.AuthorizePage("/Home/Privacy");
-                    options.Conventions.AllowAnonymousToPage("/Home/Login");
-                    options.Conventions.AllowAnonymousToPage("/Home/Logout");
-                    options.Conventions.AllowAnonymousToPage("/Home/Forbidden");
+                    options.Conventions.AllowAnonymousToFolder("/Login");
 
                 });
-
-            services.AddSingleton<IAuthorizationHandler,
-                     AdministratorAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler,
-                     UserAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
