@@ -14,5 +14,6 @@ namespace CommunAxiom.Transformations.Contracts
         public const string FK = "FK";
         public const string NOT_FOUND = "NOT_FOUND";
         public const string MANDATORY = "MANDATORY";
+        public const string MIN_DATE = "MIN_DATE";
     }
 }

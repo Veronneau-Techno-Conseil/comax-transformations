@@ -22,11 +22,11 @@ namespace web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        //private readonly TransformationsDbContext _context;
+        private readonly TransformationsDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)//, TransformationsDbContext context)
+        public HomeController(ILogger<HomeController> logger, TransformationsDbContext context)
         {
-            //_context = context;
+            _context = context;
             _logger = logger;
         }
 
@@ -37,7 +37,7 @@ namespace web.Controllers
 
         public IActionResult Welcome()
         {
-            return View("Welcome");
+            return RedirectToAction("Index", "Module");
         }
 
         public IActionResult Privacy()

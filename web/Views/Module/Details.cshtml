@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model CommunAxiom.Transformations.Contracts.Module
+@inject IHtmlLocalizer<web.Controllers.ModuleController> Localizer
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var cache = this.Context.RequestServices.GetService<SiteCache>();
+}
+<div class="d-flex">
+    <span class="p-2">@Localizer["module_name"]</span>
+    @Html.HiddenFor(x => x.Id)
+</div>
+<div class="d-flex">
+    <div class="p-2">
+        @Model.Code
+    </div>
+</div>
+<div class="d-flex">
+    <span class="p-2">@Localizer["creator"]</span>
+    @Html.HiddenFor(x => x.Id)
+</div>
+<div class="d-flex">
+    <div class="p-2">
+        @Model.Creator
+    </div>
+</div>
+<div class="d-flex">
+    <span class="p-2">@Localizer["created"]</span>
+    @Html.HiddenFor(x => x.Id)
+</div>
+<div class="d-flex">
+    <div class="p-2">
+        @Model.Created
+    </div>
+</div>
+<div class="d-flex">
+    <span class="p-2">@Localizer["version"]</span>
+    @Html.HiddenFor(x => x.Id)
+</div>
+<div class="d-flex">
+    <div class="p-2">
+        @Model.Version
+    </div>
+</div>
+<div class="d-flex">
+    <span class="p-2">@Localizer["depreciation"]</span>
+    @Html.HiddenFor(x => x.Id)
+</div>
+<div class="d-flex">
+    <div class="p-2">
+        @Model.Depreciation
+    </div>
+</div>

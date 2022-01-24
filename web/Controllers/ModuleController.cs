@@ -1,5 +1,6 @@
 ﻿using CommunAxiom.Transformations.AppModel.Business;
 using CommunAxiom.Transformations.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,25 +20,39 @@ namespace web.Controllers
         }
 
         // GET: ModuleController
-        public ActionResult Index()
+        public ActionResult Index(string search="")
         {
-            var res = this.moduleBusiness.ListModule("");
+            var res = this.moduleBusiness.ListModule(search);
             return View(res);
         }
 
         // GET: ModuleController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            return await this.HandleResult(OperationType.READ, async () =>
+            {
+                var mod = await this.moduleBusiness.GetModule(id);
+                if (mod == null)
+                {
+                    return NotFound();
+                }
+                return View(mod);
+            }, x =>
+            {
+                this.SetErrors<Module>(x);
+                return View();
+            });
         }
 
         // GET: ModuleController/Create
+        [Authorize(Policy = "RequireAdministrator")]
         public ActionResult Create()
         {
             return View("Create");
         }
 
         // POST: ModuleController/Create
+        [Authorize(Policy = "RequireAdministrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Module module)
@@ -99,6 +114,7 @@ namespace web.Controllers
         }
 
         // GET: ModuleController/Delete/5
+        [Authorize(Policy = "RequireAdministrator")]
         public async Task<ActionResult> Delete(int id)
         {
             return await this.HandleResult(OperationType.READ, async () =>
@@ -117,6 +133,7 @@ namespace web.Controllers
         }
 
         // POST: ModuleController/Delete/5
+        [Authorize(Policy = "RequireAdministrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public  async Task<ActionResult> Delete(int id, IFormCollection collection)

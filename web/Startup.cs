@@ -64,6 +64,7 @@ namespace web
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.AccessDeniedPath = PathString.FromUriComponent(new Uri("https://localhost:5001/Login/forbidden"));
+                options.SignedOutRedirectUri = PathString.FromUriComponent(new Uri("https://localhost:5001/Login"));
                 options.MapInboundClaims = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
 
@@ -77,10 +78,8 @@ namespace web
                     },
                     OnRedirectToIdentityProviderForSignOut = context =>
                     {
-                        var logoutUri = Configuration["oidc:SignedOutRedirectUri"];
-                        context.Response.Redirect(logoutUri);
+                        context.Response.Redirect(PathString.FromUriComponent(new Uri("https://localhost:5001/Login")));
                         context.HandleResponse();
-
                         return Task.CompletedTask;
                     },
                     OnTicketReceived = context =>
@@ -94,6 +93,12 @@ namespace web
 
             services.AddAuthorization(policies =>
             {
+                policies.AddPolicy("RequireAdministrator",
+                    policy => policy.RequireRole("Administrator"));
+
+                policies.AddPolicy("RequireUser",
+                    policy => policy.RequireRole("User"));
+
                 policies.FallbackPolicy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();

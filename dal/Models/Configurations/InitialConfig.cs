@@ -33,6 +33,12 @@ namespace CommunAxiom.Transformations.DAL.Models.Configurations
             builder.Entity<Module>()
                 .Property(x => x.ModuleTypeId)
                 .IsRequired();
+            builder.Entity<Module>()
+                .Property(x => x.Version)
+                .IsRequired();
+            builder.Entity<Module>()
+                .Property(x => x.Depreciation)
+                .IsRequired();
 
             builder.Entity<User>()
                 .HasKey(x => x.Id);

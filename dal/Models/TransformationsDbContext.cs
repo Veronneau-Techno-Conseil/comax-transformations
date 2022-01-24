@@ -21,7 +21,7 @@ namespace CommunAxiom.Transformations.DAL.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            if (configs.MemoryDb)
+            if (true) //configs.MemoryDb)
             {
                 optionsBuilder.UseInMemoryDatabase("TransormationsDb");
             }

@@ -15,6 +15,8 @@ namespace web
                             OperationAuthorizationRequirement requirement)
         {
             List<string> things_users_cant_do = new List<string>();
+            things_users_cant_do.Add("Create");
+            things_users_cant_do.Add("Delete");
 
             if (context.User == null)
             {

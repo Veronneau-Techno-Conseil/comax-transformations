@@ -5,6 +5,7 @@ using CommunAxiom.Transformations.AppModel.Repositories;
 using FluentValidation.Results;
 using CommunAxiom.Transformations.AppModel;
 using System.Threading.Tasks;
+using System;
 
 namespace CommunAxiom.Transformations.Business.Module
 {
@@ -35,6 +36,11 @@ namespace CommunAxiom.Transformations.Business.Module
             RuleFor(x => x.ModuleTypeCode).NotNull().WithErrorCode(ERROR_CODES.MANDATORY).DependentRules(() =>
             {
                 RuleFor(x => x.ModuleTypeCode).MustAsync((mt, token) => this.moduleRepository.ModuleTypeExists(mt)).WithErrorCode(ERROR_CODES.FK);
+            });
+
+            RuleFor(x => x.Depreciation).NotNull().WithErrorCode(ERROR_CODES.MANDATORY).DependentRules(() =>
+            {
+                RuleFor(x => x.Depreciation).Must((date, token) => Validate_Date(date)).WithErrorCode(ERROR_CODES.MIN_DATE);
             });
         }
 
@@ -78,6 +84,17 @@ namespace CommunAxiom.Transformations.Business.Module
         {
             
             return base.PreValidate(context, result);
+        }
+
+        private bool Validate_Date(Contracts.Module module)
+        {
+            if(DateTime.Compare(module.Depreciation, module.Created) > 0)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
         }
     }
 }

@@ -69,3 +69,32 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/*TABLE STYLES*/
+
+table {
+    width: 100%;
+}
+
+
+th {
+    text-align: center;
+}
+
+td {
+text-align: center;
+}
+
+tr:hover {
+    background-color: lightblue;
+}
+
+#add_button {
+    background-color: lightgreen;
+    border-radius: 75%;
+}
+
+#delete_button {
+    background-color: palevioletred;
+    border-radius: 75%;
+}
