@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using CommunAxiom.Transformations.AppModel;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -103,11 +105,6 @@ namespace web
                     .RequireAuthenticatedUser()
                     .Build();
             });
-
-            services.AddSingleton<IAuthorizationHandler,
-                     AdministratorAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler,
-                     UserAuthorizationHandler>();
 
             services.AddControllersWithViews()
               .AddMvcLocalization();

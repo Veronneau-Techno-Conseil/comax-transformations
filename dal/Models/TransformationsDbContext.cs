@@ -1,5 +1,7 @@
 ﻿
 using CommunAxiom.Transformations.DAL.Models.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;

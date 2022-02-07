@@ -88,13 +88,3 @@ text-align: center;
 tr:hover {
     background-color: lightblue;
 }
-
-#add_button {
-    background-color: lightgreen;
-    border-radius: 75%;
-}
-
-#delete_button {
-    background-color: palevioletred;
-    border-radius: 75%;
-}

@@ -45,14 +45,12 @@ namespace web.Controllers
         }
 
         // GET: ModuleController/Create
-        [Authorize(Policy = "RequireAdministrator")]
         public ActionResult Create()
         {
             return View("Create");
         }
 
         // POST: ModuleController/Create
-        [Authorize(Policy = "RequireAdministrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Module module)

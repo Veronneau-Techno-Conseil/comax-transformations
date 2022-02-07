@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNet.Identity;
 
 namespace web
 {
@@ -13,7 +14,8 @@ namespace web
         {
             using var scope = serviceProvider.CreateScope();
             var userBusiness = scope.ServiceProvider.GetService<IUserBusiness>();
-            await userBusiness.EnsureCreated(new CommunAxiom.Transformations.Contracts.User { Name = "Test User", Username = "testUser@test.com" });
+            var user = new CommunAxiom.Transformations.Contracts.User { Name = "Test User", Username = "testUser@test.com", role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Administrator") };
+            await userBusiness.EnsureCreated(user);
 
         }
     }

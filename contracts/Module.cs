@@ -13,7 +13,7 @@ namespace CommunAxiom.Transformations.Contracts
         public string ModuleTypeCode { get; set; }
         public DateTime Created { get; set; }
         public string Creator { get; set; }
-        public double Version { get; set; } = 1.0;
+        public Version VersionModule { get; set; }
         public DateTime Depreciation { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace CommunAxiom.Transformations.DAL.Models
         public string Name { get; set; }
         public string Username { get; set; }
         public DateTime LastConnected { get; set; }
-
+        public string role { get; set; }
     }
 }

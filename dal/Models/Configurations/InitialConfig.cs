@@ -34,7 +34,7 @@ namespace CommunAxiom.Transformations.DAL.Models.Configurations
                 .Property(x => x.ModuleTypeId)
                 .IsRequired();
             builder.Entity<Module>()
-                .Property(x => x.Version)
+                .Property(x => x.VersionModule)
                 .IsRequired();
             builder.Entity<Module>()
                 .Property(x => x.Depreciation)

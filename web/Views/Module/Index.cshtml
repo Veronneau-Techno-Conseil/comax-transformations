@@ -7,7 +7,7 @@
 @inject IHtmlLocalizer<web.Controllers.ModuleController> Localizer
  <h5 align="center">Transformations</h5>
 <div class="d-flex flex-row-reverse">
-    <div class="p-2" id="add_button"><a asp-action="Create" asp-controller="Module"><span color="green" class="fas fa-plus"></span></a></div>
+    <div class="p-2" ><a asp-action="Create" asp-controller="Module"><span color="green" class="fas fa-plus"></span></a></div>
 </div>
 
 <div>
@@ -34,7 +34,7 @@
                 <td scope="col">@item.Id</td>
                 <td scope="col">@item.Code</td>
                 <td scope="col">@item.ModuleTypeCode</td>
-                <td scope="col">@item.Version</td>
+                <td scope="col">@item.VersionModule</td>
                 <td scope="col">@item.Depreciation</td>
                 <td scope="col">
                     <a asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-edit"></span></a>

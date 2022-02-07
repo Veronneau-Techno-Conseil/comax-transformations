@@ -22,7 +22,7 @@ namespace CommunAxiom.Transformations.DAL.Models
         public DateTime Created { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
-        public double Version { get; set; } = 1.0;
+        public string VersionModule { get; set; }
         public DateTime Depreciation { get; set; }
     }
 }

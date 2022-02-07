@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 
 namespace CommunAxiom.Transformations.Contracts
 {
@@ -8,5 +10,6 @@ namespace CommunAxiom.Transformations.Contracts
         public string Name { get; set; }
         public string Username { get; set; }
         public DateTime LastConnected { get; set; }
+        public IdentityRole role { get; set; }
     }
 }
