@@ -6,6 +6,9 @@ using FluentValidation.Results;
 using CommunAxiom.Transformations.AppModel;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace CommunAxiom.Transformations.Business.Module
 {
@@ -42,6 +45,7 @@ namespace CommunAxiom.Transformations.Business.Module
             {
                 RuleFor(x => x.Depreciation).Must((date, token) => Validate_Date(date)).WithErrorCode(ERROR_CODES.MIN_DATE);
             });
+            RuleFor(x => x).Must((mod, token) => Same_Hash(mod)).WithErrorCode(ERROR_CODES.OVERWRITE);
         }
 
         private async Task<bool> Exists(int moduleId)
@@ -89,6 +93,30 @@ namespace CommunAxiom.Transformations.Business.Module
         private bool Validate_Date(Contracts.Module module)
         {
             if(DateTime.Compare(module.Depreciation, module.Created) > 0)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        private string calculated_hash(IFormFile contents)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var memorystream = new MemoryStream())
+                {
+                    contents.CopyTo(memorystream);
+                    var hash = md5.ComputeHash(memorystream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        private bool Same_Hash(Contracts.Module module)
+        {
+            if(module.Hash == calculated_hash(module.Contents))
             {
                 return true;
             } else

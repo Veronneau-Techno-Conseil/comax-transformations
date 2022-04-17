@@ -8,6 +8,24 @@
     var cache = this.Context.RequestServices.GetService<SiteCache>();
 }
 
+@section AlertHeaderSection
+{   
+    @if ((bool) ViewData["different"] == true)
+    {
+        @Html.ActionLink("You're about to overwrite a previous version. Are you sure?","Overwrite","Module",new { @onclick="return Submit();"})
+        <script type="text/javascript">
+            function Submit() {
+                if (confirm("You're about to overwrite a previous version. Are you sure?")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+    }
+}
+
+
 @using (Html.BeginForm())
 {
     <div class="d-flex">
@@ -18,6 +36,10 @@
         <div class="p-2 d-flex flex-column">
             @Html.TextBoxFor(x => x.Code, new { @class = "p-2" })
             <span asp-validation-for="Code" class="text-danger p-2"></span>
+        </div>
+        <div class="p-2 d-flex flex-column">
+            <input asp-for="Contents" type="file">
+            <span asp-validation-for="Contents" class="text-danger p-2"></span>
         </div>
         <div class="p-2 d-flex flex-column">
             @Html.EditorFor(x => x.VersionModule, new { @class = "p-2" })

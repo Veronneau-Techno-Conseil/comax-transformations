@@ -4,8 +4,11 @@ using CommunAxiom.Transformations.AppModel.Repositories;
 using CommunAxiom.Transformations.Contracts;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace CommunAxiom.Transformations.Business.Module
@@ -28,6 +31,7 @@ namespace CommunAxiom.Transformations.Business.Module
             Result<Contracts.Module> result = new Result<Contracts.Module>();
             module.Created = DateTime.Now;
             module.Creator = userAccessor.GetCurrentUsername();
+            module.Hash = calculated_hash(module.Contents);
             result.ValidationResult = validator.Validate(module);
             if (result.ValidationResult.IsValid)
             {
@@ -67,16 +71,42 @@ namespace CommunAxiom.Transformations.Business.Module
         public IAsyncEnumerable<Contracts.Module> ListModule(string search) =>
             moduleRepository.ListModule(search);
 
-        public async Task<Result<Contracts.Module>> UpdateModule(Contracts.Module module)
+        private string calculated_hash(IFormFile contents)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var memorystream = new MemoryStream())
+                {
+                    contents.CopyTo(memorystream);
+                    var hash = md5.ComputeHash(memorystream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        public async Task<Result<Contracts.Module>> UpdateModule(Contracts.Module module, bool overwrite = false)
         {
             Result<Contracts.Module> result = new Result<Contracts.Module>();
             var original = await this.GetModule(module.Id);
             module.Creator = original.Creator;
             module.Created = original.Created;
+            if(overwrite)
+            {
+                module.Hash = calculated_hash(module.Contents);
+            } else
+            {
+                module.Hash = original.Hash;
+            }
             result.ValidationResult = await validator.ValidateAsync(module);
             if (result.ValidationResult.IsValid)
             {
-                result.ReturnValue = await moduleRepository.UpdateModule(module);
+                if (module.VersionModule != original.VersionModule)
+                {
+                    result.ReturnValue = await moduleRepository.AddModule(module);
+                } else
+                {
+                    result.ReturnValue = await moduleRepository.UpdateModule(module);
+                }
             }
             return result;
         }

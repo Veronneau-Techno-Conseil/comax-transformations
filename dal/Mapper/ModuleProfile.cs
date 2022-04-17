@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommunAxiom.Transformations.DAL.Mapper.Resolvers;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace CommunAxiom.Transformations.DAL.Mapper
     {
         public ModuleProfile()
         {
+            CreateMap<IFormFile, byte[]>().ConvertUsing<IFormFileToByteArrayConverter>();
+            CreateMap<byte[], IFormFile>().ConvertUsing<ByteArrayToIFormFileConverter>();
             CreateMap<string, Version>().ConvertUsing<StringToVersionConverter>();
             CreateMap<Version, string>().ConvertUsing(s => s.ToString());
             CreateMap<Models.Module, Contracts.Module>()
