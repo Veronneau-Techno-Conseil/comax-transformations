@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Threading.Tasks;
 using web.Helpers;
 
@@ -14,6 +15,7 @@ namespace web.Controllers
     public class ModuleController : Controller
     {
         private readonly IModuleBusiness moduleBusiness;
+
         public ModuleController(IModuleBusiness moduleBusiness)
         {
             this.moduleBusiness = moduleBusiness;
@@ -82,6 +84,7 @@ namespace web.Controllers
                 {
                     return NotFound();
                 }
+                ViewData["different"] = false;
                 return View("Edit", res);
             }, x =>
             {
@@ -97,18 +100,53 @@ namespace web.Controllers
         {
             return await this.HandleResult(OperationType.UPDATE, async () =>
             {
-                var res = await this.moduleBusiness.UpdateModule(module);
+                var res = await this.moduleBusiness.UpdateModule(module, false);
                 if (!res.ValidationResult.IsValid)
                 {
+                    if(res.ValidationResult.Errors.Count == 1 && res.ValidationResult.Errors[0].ErrorCode == ERROR_CODES.OVERWRITE)
+                    {
+                        ViewData["different"] = true;
+                        return View("Edit");
+                    }
                     this.SetErrors(res);
+                    ViewData["different"] = false;
                     return View("Edit");
                 }
                 return RedirectToAction(nameof(Index));
             }, x =>
             {
                 this.SetErrors<Module>(x);
+                ViewData["different"] = false;
                 return View("Edit");
             });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Overwrite(Module module, bool overwrite)
+        {
+            if (overwrite)
+            {
+                return await this.HandleResult(OperationType.UPDATE, async () =>
+                {
+                    var res = await this.moduleBusiness.UpdateModule(module, true);
+                    if (!res.ValidationResult.IsValid)
+                    {
+                        this.SetErrors(res);
+                        return View("Edit");
+                    }
+                    return RedirectToAction(nameof(Index));
+                }, x =>
+                {
+                    this.SetErrors<Module>(x);
+                    return View("Edit");
+                });
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: ModuleController/Delete/5

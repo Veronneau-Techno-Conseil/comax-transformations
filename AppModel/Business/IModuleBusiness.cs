@@ -13,7 +13,7 @@ namespace CommunAxiom.Transformations.AppModel.Business
         IAsyncEnumerable<Module> ListModule(string search);
         Task<Module> GetModule(int id);
         Task<Result<Module>> AddModule(Module id);
-        Task<Result<Module>> UpdateModule(Module id);
+        Task<Result<Module>> UpdateModule(Module id, bool overwrite);
         Task<ValidationResult> DeleteModule(int id); 
         IAsyncEnumerable<ModuleType> GetModuleTypes();
 

@@ -8,7 +8,8 @@
     var cache = this.Context.RequestServices.GetService<SiteCache>();
 }
 
-@using (Html.BeginForm())
+<!--Leaving it null is a potential security concern, action, controller may be better-->
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype="multipart/form-data"}))
 {
     <div class="d-flex flex-column">
         <span class="p-2">@Localizer["module_name"]</span>
@@ -20,6 +21,10 @@
         <div class="p-2 d-flex flex-column">
             @Html.TextBoxFor(x => x.Code, new { @Value = "Input Code" , @class = "p-2" })
             <span asp-validation-for="Code" class="text-danger p-2"></span>
+        </div>
+        <div class="p-2 d-flex flex-column">
+            <input asp-for="Contents" type="file">
+            <span asp-validation-for="Contents" class="text-danger p-2"></span>
         </div>
         <div class="p-2 d-flex flex-column">
             @Html.EditorFor(x => x.VersionModule, new { @class = "p-2" })

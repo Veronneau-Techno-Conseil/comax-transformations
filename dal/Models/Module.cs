@@ -12,6 +12,9 @@ namespace CommunAxiom.Transformations.DAL.Models
     {
         public int Id { get; set; }
         public string Code { get; set; }
+        public byte[] Contents { get; set; }
+
+        public string Hash { get; set; }
         public int ModuleTypeId { get; set; }
         public ModuleType ModuleType { get; set; }
 
