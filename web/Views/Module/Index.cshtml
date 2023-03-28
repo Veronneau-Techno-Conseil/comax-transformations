@@ -5,37 +5,43 @@
     ViewData["Title"] = "Index";
 }
 @inject IHtmlLocalizer<web.Controllers.ModuleController> Localizer
-
-<h1>Index</h1>
+ <h5 align="center">Transformations</h5>
 <div class="d-flex flex-row-reverse">
-    <div class="p-2"><a asp-action="Create" asp-controller="Module"><span class="fas fa-plus"></span>@Localizer["new"]</a></div>
+    <div class="p-2" ><a asp-action="Create" asp-controller="Module"><span color="green" class="fas fa-plus"></span></a></div>
 </div>
 
+<div>
+@using (Html.BeginForm("Index", "Module", FormMethod.Get)) {    
+     @Html.TextBox("search") <input type = "submit" style="display: none" />  
+}
+</div>
+<div>
 <table class="table flex-row">
     <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">@Localizer["code"]</th>
             <th scope="col">@Localizer["moduleType"]</th>
-            <th scope="col">@Localizer["created"]</th>
-            <th scope="col">@Localizer["creator"]</th>
+            <th scope="col">@Localizer["version"]</th>
+            <th scope="col">@Localizer["depreciation"]</th>
             <th scope="col">@Localizer["actions"]</th>
         </tr>
     </thead>
     <tbody>
         @await foreach (var item in Model)
         {
-            <tr>
+            <tr onclick="location.href = '@(Url.Action("Details", new { Id = @item.Id}))'">
                 <td scope="col">@item.Id</td>
                 <td scope="col">@item.Code</td>
                 <td scope="col">@item.ModuleTypeCode</td>
-                <td scope="col">@item.Created</td>
-                <td scope="col">@item.Creator</td>
+                <td scope="col">@item.VersionModule</td>
+                <td scope="col">@item.Depreciation</td>
                 <td scope="col">
                     <a asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-edit"></span></a>
-                    <a asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><span color="red" class="fa fa-trash"></span></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+</div>

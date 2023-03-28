@@ -13,7 +13,6 @@ namespace CommunAxiom.Transformations.DAL.Models
         public int Id { get; set; }
         public string Code { get; set; }
         public int ModuleTypeId { get; set; }
-
         public ModuleType ModuleType { get; set; }
 
         //TODO: uncomment when adding translations
@@ -23,5 +22,7 @@ namespace CommunAxiom.Transformations.DAL.Models
         public DateTime Created { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
+        public string VersionModule { get; set; }
+        public DateTime Depreciation { get; set; }
     }
 }

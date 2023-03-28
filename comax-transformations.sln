@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "dal\DAL.csproj", "{1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "business\Business.csproj", "{B808A6BB-093E-484C-9044-D3D573BF6CA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppModel", "AppModel\AppModel.csproj", "{B086E239-CFCC-48B7-8F77-87257DFC7A56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppModel", "AppModel\AppModel.csproj", "{B086E239-CFCC-48B7-8F77-87257DFC7A56}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4442AAB2-8F1B-4DBD-A583-B9C69FBA1D3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessTests", "BusinessTests\BusinessTests.csproj", "{8E973EA5-1557-42F8-BA0C-70A54B01507F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessTests", "BusinessTests\BusinessTests.csproj", "{8E973EA5-1557-42F8-BA0C-70A54B01507F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALTests", "DALTests\DALTests.csproj", "{E9D9A806-9F25-46C2-AF30-EE45179484A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DALTests", "DALTests\DALTests.csproj", "{E9D9A806-9F25-46C2-AF30-EE45179484A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

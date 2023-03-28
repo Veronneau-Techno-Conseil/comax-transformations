@@ -10,17 +10,28 @@
 
 @using (Html.BeginForm())
 {
-    <div class="d-flex">
+    <div class="d-flex flex-column">
         <span class="p-2">@Localizer["module_name"]</span>
+    </div>
+    <div class="d-flex flex-column">
+        <span class="p-2">@Localizer["version"]</span>
     </div>
     <div class="d-flex">
         <div class="p-2 d-flex flex-column">
-            @Html.TextBoxFor(x => x.Code, new { @class = "p-2" })
+            @Html.TextBoxFor(x => x.Code, new { @Value = "Input Code" , @class = "p-2" })
             <span asp-validation-for="Code" class="text-danger p-2"></span>
+        </div>
+        <div class="p-2 d-flex flex-column">
+            @Html.EditorFor(x => x.VersionModule, new { @class = "p-2" })
+            <span asp-validation-for="VersionModule" class="text-danger p-2"></span>
         </div>
         <div class="p-2 d-flex flex-column">
             @Html.DropDownListFor(x => x.ModuleTypeCode, cache.GetModuleTypes().Select(x => new SelectListItem(x.Code, x.Code)), new { @class = "p-2" })
             <span asp-validation-for="ModuleTypeCode" class="text-danger p-2"></span>
+        </div>
+        <div class="p-2 d-flex flex-column">
+            @Html.EditorFor(x => x.Depreciation, new { @class = "p-2" })
+            <span asp-validation-for="Depreciation" class="text-danger p-2"></span>
         </div>
     </div>
     <div class="d-flex">

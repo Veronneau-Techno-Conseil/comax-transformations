@@ -1,5 +1,7 @@
 ﻿
 using CommunAxiom.Transformations.DAL.Models.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -21,7 +23,7 @@ namespace CommunAxiom.Transformations.DAL.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            if (configs.MemoryDb)
+            if (true) //configs.MemoryDb)
             {
                 optionsBuilder.UseInMemoryDatabase("TransormationsDb");
             }

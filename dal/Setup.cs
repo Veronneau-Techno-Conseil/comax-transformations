@@ -36,13 +36,13 @@ namespace CommunAxiom.Transformations.DAL
             var cfg = val.CurrentValue;
             serviceProvider.WithContext(ctxt =>
             {
-                if (!cfg.MemoryDb)
-                {
-                    if (cfg.ShouldDrop)
-                        ctxt.Database.EnsureDeleted();
-                    ctxt.Database.EnsureCreated();
-                    ctxt.Database.Migrate();
-                }
+                //if (!cfg.MemoryDb)
+                //{
+                    //if (cfg.ShouldDrop)
+                        //ctxt.Database.EnsureDeleted();
+                    //ctxt.Database.EnsureCreated();
+                    //ctxt.Database.Migrate();
+                //}
                 Seed.ModuleTypes.Seed(ctxt);
             });
         }

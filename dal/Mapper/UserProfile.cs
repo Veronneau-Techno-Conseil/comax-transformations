@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CommunAxiom.Transformations.DAL.Mapper.Resolvers;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,8 @@ namespace CommunAxiom.Transformations.DAL.Mapper
     {
         public UserProfile()
         {
+            CreateMap<string, IdentityRole>().ConvertUsing<StringToIdentityConverter>();
+            CreateMap<IdentityRole, string>().ConvertUsing(s => s.ToString());
             CreateMap<Models.User, Contracts.User>();
             CreateMap<Contracts.User, Models.User>();
         }
