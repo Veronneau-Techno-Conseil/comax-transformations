@@ -150,6 +150,7 @@ namespace web.Controllers
         }
 
         // GET: ModuleController/Delete/5
+        [Authorize(Policy = "RequireAdministrator")]
         public async Task<ActionResult> Delete(int id)
         {
             return await this.HandleResult(OperationType.READ, async () =>
